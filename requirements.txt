@@ -6,5 +6,5 @@ langchain-community
 tqdm
 accelerate
 pypdf
-faiss-gpu
+faiss-cpu
 langchain-huggingface
