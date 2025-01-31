@@ -214,8 +214,7 @@ def demo():
             inputs=None, \
             outputs=[chatbot, doc_source1, source1_page, doc_source2, source2_page, doc_source3, source3_page], \
             queue=False)
-    demo.queue().launch(debug=True)
-
+    demo.queue().launch(server_name="0.0.0.0", server_port=10000)
 
 if __name__ == "__main__":
     demo()
