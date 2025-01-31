@@ -287,7 +287,7 @@ def conversation(
         )
 
 def demo():
-    """Creates and launches the Gradio interface"""
+    """Creates and launches the Gradio interface with proper port binding for Render"""
     with gr.Blocks(theme=gr.themes.Default(
         primary_hue="red",
         secondary_hue="pink",
@@ -432,88 +432,3 @@ def demo():
             inputs=[document],
             outputs=[vector_db, db_progress]
         )
-        
-        # Initialize LLM chain
-        qachain_btn.click(
-            initialize_LLM,
-            inputs=[
-                llm_btn,
-                slider_temperature,
-                slider_maxtokens,
-                slider_topk,
-                vector_db
-            ],
-            outputs=[qa_chain, llm_progress]
-        ).then(
-            lambda: [None, "", 0, "", 0, "", 0],
-            inputs=None,
-            outputs=[
-                chatbot,
-                doc_source1,
-                source1_page,
-                doc_source2,
-                source2_page,
-                doc_source3,
-                source3_page
-            ],
-            queue=False
-        )
-        
-        # Chatbot event handlers
-        msg.submit(
-            conversation,
-            inputs=[qa_chain, msg, chatbot],
-            outputs=[
-                qa_chain,
-                msg,
-                chatbot,
-                doc_source1,
-                source1_page,
-                doc_source2,
-                source2_page,
-                doc_source3,
-                source3_page
-            ],
-            queue=False
-        )
-        
-        submit_btn.click(
-            conversation,
-            inputs=[qa_chain, msg, chatbot],
-            outputs=[
-                qa_chain,
-                msg,
-                chatbot,
-                doc_source1,
-                source1_page,
-                doc_source2,
-                source2_page,
-                doc_source3,
-                source3_page
-            ],
-            queue=False
-        )
-        
-        clear_btn.click(
-            lambda: [None, "", 0, "", 0, "", 0],
-            inputs=None,
-            outputs=[
-                chatbot,
-                doc_source1,
-                source1_page,
-                doc_source2,
-                source2_page,
-                doc_source3,
-                source3_page
-            ],
-            queue=False
-        )
-    
-    # Launch the demo
-    port = int(os.environ.get("PORT", 10000))
-    print(f"Binding to port: {port}")
-    demo.queue().launch(server_name="0.0.0.0", server_port=port)
-
-if __name__ == "__main__":
-    print("Starting app...")
-    demo()
