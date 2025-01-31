@@ -8,3 +8,4 @@ accelerate
 pypdf
 faiss-cpu
 langchain-huggingface
+gradio
